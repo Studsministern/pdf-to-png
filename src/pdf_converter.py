@@ -1,6 +1,8 @@
+from fastapi import UploadFile
 from pdf2image import convert_from_bytes
-from typing import Image
+from PIL.Image import Image
 
-def convert_to_pdf(pdf_bytes: bytes) -> Image:
-    pages = convert_from_bytes(pdf_file=pdf_bytes, last_page=1)
+def convert_pdf(upload_file: UploadFile) -> Image:
+    bytes = upload_file.file.read()
+    pages = convert_from_bytes(pdf_file=bytes, last_page=1)
     return pages[0]
