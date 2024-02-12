@@ -1,6 +1,9 @@
 import asyncio
 from base64 import b64encode
+
 from fastapi import FastAPI, status, UploadFile, Response
+from pydantic import BaseModel, Field
+
 from src.pdf_converter import convert_pdf
 
 
@@ -32,28 +35,56 @@ app = FastAPI(
 )
 
 
-@app.get("/status", status_code=status.HTTP_200_OK)
+
+@app.get("/")
+def root():
+    return {"message": "Hello there!"}
+
+
+
+# TODO: Split status into a route and models
+class Status(BaseModel):
+    status: str = Field(examples=["OK"])
+
+@app.get(
+    "/status",
+    tags=["status"],
+    status_code=status.HTTP_200_OK,
+    response_model=Status
+)
 def get_status():
     """
     Returns the status of the application.
     
     **Returns**:
-    - status: A `JSON` containing the status of the application.
+    - `status`: Contains the status of the application.
               Will return '{"status": "OK"}' if everything works as intended.
     """
     return {"status": "OK"}
 
 
-@app.post("/convert", status_code=status.HTTP_201_CREATED)
-async def convert(file: UploadFile, response: Response):
+# TODO: Split convert into a route and models
+class PDF(BaseModel):
+    file: UploadFile = Field(examples=["<a PDF file>"])
+
+class PNG(BaseModel):
+    image_b64: bytes = Field(examples=["<base64 encoded bytes for a PNG>"])
+
+@app.post(
+    "/convert",
+    tags=["convert"],
+    status_code=status.HTTP_201_CREATED,
+    response_model=PNG
+)
+async def convert(file: PDF, response: Response):
     """
     Converts a PDF file to a base64 encoded image.
 
     **Args**:
-    - file (`UploadFile`): The PDF file to be converted.
+    - `file` ([UploadFile](https://fastapi.tiangolo.com/reference/uploadfile/)): The PDF file to be converted.
 
     **Returns**:
-    - image_b64: A `JSON` containing the base64 encoded image.
+    - `image_b64`: A **JSON** containing the base64 encoded image.
     """
 
     if file.content_type != "application/pdf":
