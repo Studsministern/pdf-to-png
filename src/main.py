@@ -1,6 +1,6 @@
-import asyncio
 from base64 import b64encode
 
+import asyncio
 from fastapi import FastAPI, HTTPException, status, UploadFile
 
 from src.pdf_converter import convert_pdf

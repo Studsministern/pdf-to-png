@@ -1,5 +1,6 @@
 import io
 from typing import BinaryIO
+
 from pdf2image import convert_from_bytes
 
 
