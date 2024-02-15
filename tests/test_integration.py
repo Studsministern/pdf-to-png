@@ -6,7 +6,7 @@ import pytest
 from httpx import AsyncClient
 from fastapi.testclient import TestClient
 
-from src.main import app
+from main import app
 import tests.test_utils as test
 
 

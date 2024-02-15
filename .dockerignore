@@ -1,8 +1,7 @@
-# TODO: Check everything here! Should I really ignore git, docker, tests, venv?
-
 ## Git
 .github/
 .gitignore
+.git
 
 ## Docker
 Dockerfile
@@ -12,6 +11,7 @@ Dockerfile
 **/__pycache__/
 .pytest_cache
 tests
+build
 
 # Virtual environment
 .env

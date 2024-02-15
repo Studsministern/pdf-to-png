@@ -1,39 +1,20 @@
 from base64 import b64encode
 
 import asyncio
-from fastapi import FastAPI, HTTPException, status, UploadFile
+from fastapi import APIRouter, HTTPException, status, UploadFile
 
-from src.pdf_converter import convert_pdf
-
-
-description = """
-Microservice for sending in a PDF and getting back a PNG of the first page.
-
-Built to convert the PDFs for HeHEs into PNGs that can be displayed to users.
-
-### Note
-
-This API is only intended to be used by the [E-guild at LTH](https://github.com/esek).
-"""
-
-app = FastAPI(
-    title="PDF to PNG",
-    description=description,
-    version="0.1.0",
-    contact={
-        "name": "Eric Weidow",
-        "url": "https://github.com/Studsministern",
-        "email": "eric@weidow.se",
-    },
-)
+from utils.pdf_converter import convert_pdf
 
 
-@app.get("/")
+router = APIRouter()
+
+
+@router.get("/")
 def root():
     return {"message": "Hello there!", "answer": "Ah, General Kenobi!"}
 
 
-@app.get("/status", tags=["status"], status_code=status.HTTP_200_OK)
+@router.get("/status", tags=["status"], status_code=status.HTTP_200_OK)
 def get_status():
     """
     Returns the status of the application.
@@ -49,7 +30,7 @@ def get_status():
     return {"status": "OK"}
 
 
-@app.post(
+@router.post(
     "/convert",
     tags=["convert"],
     status_code=status.HTTP_201_CREATED,

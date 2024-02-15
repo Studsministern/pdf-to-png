@@ -24,10 +24,10 @@ Status endpoint that just informs that the system isn't dead
 pip install .
 ```
 
-Start the microservice using the following command from the root of this directory. [uvicorn](https://www.uvicorn.org/) is used to start an instance of a FastAPI server (called `app` in `/src/main.py`):
+Start the microservice by running the `main.py` file, as this will create an insteance of a FastAPI server (called `app` in `main.py`):
 
 ```bash
-python3 -m uvicorn src.main:app --reload
+python3 -m main.py
 ```
 
 ## Testing

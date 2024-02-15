@@ -2,7 +2,7 @@ import io
 
 from PIL import Image
 
-from src.pdf_converter import convert_pdf
+from utils.pdf_converter import convert_pdf
 import tests.test_utils as test
 
 
